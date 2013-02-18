@@ -1,0 +1,30 @@
+---
+abstract: 'Generate a simple application with DBIx::Class authentication.'
+author:
+  - 'Matthias Krull <m.krull@uninets.eu>'
+build_requires:
+  Test::More: 0
+configure_requires:
+  Module::Build: 0
+dynamic_config: 1
+generated_by: 'Module::Build version 0.4003, CPAN::Meta::Converter version 2.120921'
+license: artistic_2
+meta-spec:
+  url: http://module-build.sourceforge.net/META-spec-v1.4.html
+  version: 1.4
+name: Mojolicious-Command-generate-bootstrap_app
+provides:
+  Mojolicious::Command::generate::bootstrap_app:
+    file: lib/Mojolicious/Command/generate/bootstrap_app.pm
+    version: 0.04
+requires:
+  Crypt::Passwd::XS: 0
+  DBIx::Class: 0
+  DBIx::Connector: 0
+  Mojolicious: 3.69
+  String::Random: 0
+  YAML: 0
+resources:
+  license: http://www.perlfoundation.org/artistic_license_2_0
+  repository: https://github.com/mugenken/Mojolicious-Command-generate-bootstrap_app.git
+version: 0.04
