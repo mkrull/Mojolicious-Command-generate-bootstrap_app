@@ -86,6 +86,14 @@ You can also look for information at:
 
 # LICENSE AND COPYRIGHT
 
+The Twitter Bootstrap parts:
+
+[http://www.apache.org/licenses/LICENSE-2.0](http://www.apache.org/licenses/LICENSE-2.0)
+
+[https://github.com/twitter/bootstrap/wiki/License](https://github.com/twitter/bootstrap/wiki/License)
+
+The generator:
+
 Copyright 2013 Matthias Krull.
 
 This program is free software; you can redistribute it and/or modify it

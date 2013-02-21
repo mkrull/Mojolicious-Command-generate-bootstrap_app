@@ -7,7 +7,7 @@ use Mojo::Util qw(class_to_path class_to_file);
 use String::Random qw(random_string);
 use MIME::Base64;
 
-our $VERSION = 0.04;
+our $VERSION = 0.01;
 
 has description => "Generate Mojolicious application directory structure.\n";
 has usage       => "usage: $0 generate bootstrap_app [NAME]\n";
@@ -3889,6 +3889,14 @@ L<https://github.com/mugenken/Mojolicious-Command-generate-bootstrap_app/>
 
 
 =head1 LICENSE AND COPYRIGHT
+
+The Twitter Bootstrap parts:
+
+L<http://www.apache.org/licenses/LICENSE-2.0>
+
+L<https://github.com/twitter/bootstrap/wiki/License>
+
+The generator:
 
 Copyright 2013 Matthias Krull.
 

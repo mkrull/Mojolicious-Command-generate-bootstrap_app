@@ -29,6 +29,7 @@
             "Crypt::Passwd::XS" : "0",
             "DBIx::Class" : "0",
             "DBIx::Connector" : "0",
+            "Email::Valid" : "0",
             "Mojolicious" : "3.69",
             "String::Random" : "0",
             "YAML" : "0"
@@ -38,7 +39,7 @@
    "provides" : {
       "Mojolicious::Command::generate::bootstrap_app" : {
          "file" : "lib/Mojolicious/Command/generate/bootstrap_app.pm",
-         "version" : "0.04"
+         "version" : "0.01"
       }
    },
    "release_status" : "stable",
@@ -50,5 +51,5 @@
          "url" : "https://github.com/mugenken/Mojolicious-Command-generate-bootstrap_app.git"
       }
    },
-   "version" : "0.04"
+   "version" : "0.01"
 }
