@@ -1,9 +1,10 @@
 NAME
     Mojolicious::Command::generate::bootstrap_app - Generates a basic
-    application with simple DBIC-based authentication!
+    application with simple DBIC-based authentication featuring Twitter
+    Bootstrap.
 
 VERSION
-    Version 0.01
+    Version 0.02
 
 SYNOPSIS
     This command generate an application with a DBIx::Class model and a
@@ -79,8 +80,8 @@ SUPPORT
 
     *   Repository
 
-        <https://github.com/mugenken/Mojolicious-Command-generate-bootstrap_
-        app/>
+        <https://github.com/uninets/Mojolicious-Command-generate-bootstrap_a
+        pp/>
 
 LICENSE AND COPYRIGHT
     The Twitter Bootstrap parts:

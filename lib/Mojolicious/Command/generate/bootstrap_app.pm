@@ -7,7 +7,7 @@ use Mojo::Util qw(class_to_path class_to_file);
 use String::Random qw(random_string);
 use MIME::Base64;
 
-our $VERSION = 0.01;
+our $VERSION = 0.02;
 
 has description => "Generate Mojolicious application directory structure.\n";
 has usage       => "usage: $0 generate bootstrap_app [NAME]\n";
@@ -92,8 +92,8 @@ sub run {
     # db_deploy_script
     $self->render_to_rel_file('migrate', "$name/script/migrate", $model_namespace, $model_name);
     $self->chmod_file("$name/script/migrate", 0744);
-    $self->render_to_rel_file('fixture', "$name/share/fixtures/0.01/all_tables/users/1.fix");
-    $self->render_to_rel_file('fixture_config', "$name/share/fixtures/0.01/conf/all_tables.json");
+    $self->render_to_rel_file('fixture', "$name/share/fixtures/1/all_tables/users/1.fix");
+    $self->render_to_rel_file('fixture_config', "$name/share/fixtures/1/conf/all_tables.json");
 
     # tests
     $self->render_to_rel_file('test', "$name/t/basic.t", $class );
@@ -133,7 +133,7 @@ package <%= $class %>;
 use strict;
 use warnings;
 
-our $VERSION = 0.01;
+our $VERSION = 1;
 
 use base 'DBIx::Class::Schema';
 
@@ -355,7 +355,7 @@ if ($@) {
     <%= $class %>->import();
     my $schema = <%= $class %>->connect($dsn, $user, $pass);
     $schema->deploy;
-    my $admin = do 'share/fixtures/0.01/all_tables/users/1.fix';
+    my $admin = do 'share/fixtures/1/all_tables/users/1.fix';
     $schema->resultset('User')->create($admin);
 }
 else {
@@ -3805,11 +3805,11 @@ __END__
 
 =head1 NAME
 
-Mojolicious::Command::generate::bootstrap_app - Generates a basic application with simple DBIC-based authentication!
+Mojolicious::Command::generate::bootstrap_app - Generates a basic application with simple DBIC-based authentication featuring Twitter Bootstrap.
 
 =head1 VERSION
 
-Version 0.01
+Version 0.02
 
 =head1 SYNOPSIS
 
@@ -3883,7 +3883,7 @@ L<http://search.cpan.org/dist/Mojolicious-Command-generate-bootstrap_app/>
 
 =item * Repository
 
-L<https://github.com/mugenken/Mojolicious-Command-generate-bootstrap_app/>
+L<https://github.com/uninets/Mojolicious-Command-generate-bootstrap_app/>
 
 =back
 
