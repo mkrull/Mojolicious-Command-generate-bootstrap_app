@@ -7,7 +7,7 @@ use Mojo::Util qw(class_to_path class_to_file);
 use String::Random qw(random_string);
 use MIME::Base64;
 
-our $VERSION = 0.02;
+our $VERSION = 0.03;
 
 has description => "Generate Mojolicious application directory structure.\n";
 has usage       => "usage: $0 generate bootstrap_app [NAME]\n";
@@ -889,7 +889,7 @@ my $t = Test::Mojo->new('<%= $class %>');
 $t->ua->max_redirects(1);
 $t->get_ok('/')->status_is(200)->content_like(qr/Please log in first!/i);
 $t->get_ok('/login')->status_is(200)->content_like(qr/Login/i)->content_like(qr/Password/i);
-$t->post_form_ok('/authenticate' => { login => 'admin', password => 'password' })
+$t->post_ok('/authenticate' => form => { login => 'admin', password => 'password' })
     ->status_is(200)
     ->get_ok('/')->status_is(200)->content_like(qr/Mojolicious/i);
 
@@ -3809,7 +3809,7 @@ Mojolicious::Command::generate::bootstrap_app - Generates a basic application wi
 
 =head1 VERSION
 
-Version 0.02
+Version 0.03
 
 =head1 SYNOPSIS
 

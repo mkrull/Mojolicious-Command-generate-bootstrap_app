@@ -30,7 +30,7 @@ my $builder = Module::Build->new(
             repository => 'https://github.com/mugenken/Mojolicious-Command-generate-bootstrap_app.git'
         }
     },
-    add_to_cleanup     => [ 'Mojolicious-Command-generate-bootstrap_app-* Build _build MYMETA.* Makefile.PL' ],
+    add_to_cleanup     => [ 'Mojolicious-Command-generate-bootstrap_app-* Build _build MYMETA.*' ],
     create_makefile_pl => 'traditional',
 );
 
