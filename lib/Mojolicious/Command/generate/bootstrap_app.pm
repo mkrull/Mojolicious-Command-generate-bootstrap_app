@@ -348,7 +348,7 @@ eval {
     DBIx::Class::Migration->import();
 };
 
-if ($@) {
+if ($@ || $init) {
     say "Run this script after installing DBIx::Class::Migration for database version management.";
     unless ($init) {
         say "To initialize the database anyway run ${0} --init";
