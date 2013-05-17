@@ -9,7 +9,7 @@ WriteMakefile
                    'DBIx::Class' => 0,
                    'DBIx::Connector' => 0,
                    'Email::Valid' => 0,
-                   'Mojolicious' => '3.69',
+                   'Mojolicious' => '4',
                    'String::Random' => 0,
                    'Test::More' => 0,
                    'YAML' => 0

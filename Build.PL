@@ -17,7 +17,7 @@ my $builder = Module::Build->new(
         'Test::More' => 0,
     },
     requires => {
-        'Mojolicious'       => 3.69,
+        'Mojolicious'       => 4.0,
         'YAML'              => 0,
         'DBIx::Class'       => 0,
         'DBIx::Connector'   => 0,
