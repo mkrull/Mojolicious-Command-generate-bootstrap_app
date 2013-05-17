@@ -4,7 +4,7 @@ Mojolicious::Command::generate::bootstrap\_app - Generates a basic application w
 
 # VERSION
 
-Version 0.02
+Version 0.04
 
 # SYNOPSIS
 
@@ -20,6 +20,8 @@ This will create the directory structure with a default YAML config and basic te
 
 To get database version and migration management you should install DBIx::Class::Migration.
 
+The default database is an SQLite database that gets installed into share/my\_bootstrap\_app.db. If you would like to change the database edit your config.yml accordingly.
+
 If installed you can use script/migration as a thin wrapper around dbic-migration setting lib and the correct database already.
 Running:
 
@@ -27,7 +29,8 @@ Running:
     script/migrate install
     script/migrate populate
 
-Will initialize the database according to the config.yml with the data from share/fixtures. So edit those to customize the default user.
+Prepare generates the SQL files needed, install actually creates the database schema and populate will populate the database with the data from share/fixtures. So edit those to customize the default user.
+
 If you do not have and do not want DBIx::Class::Migrate you can initialize the database with:
 
     script/migrate --init

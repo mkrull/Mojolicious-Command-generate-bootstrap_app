@@ -7,9 +7,9 @@ use Mojo::Util qw(class_to_path class_to_file);
 use String::Random qw(random_string);
 use MIME::Base64;
 
-our $VERSION = 0.03;
+our $VERSION = 0.04;
 
-has description => "Generate Mojolicious application directory structure.\n";
+has description => "Generate Mojolicious application directory structure including Twitter Bootstrap assets and DBIC authentication.\n";
 has usage       => "usage: $0 generate bootstrap_app [NAME]\n";
 
 sub render_base64_data {
@@ -192,7 +192,7 @@ sub startup {
     $self->plugin('PODRenderer');
 
     # database connection prefork save with DBIx::Connector
-    my $connector = DBIx::Connector->new(build_dsn($self->config->{database}));
+    my $connector = DBIx::Connector->new(build_dsn($self->config->{database}), $self->config->{database}->{dbuser}, $self->config->{database}->{dbpass});
     $self->helper(
         model => sub {
             my ($self, $resultset) = @_;
@@ -311,29 +311,33 @@ use warnings;
 use 5.012;
 use lib 'lib';
 use Getopt::Long qw(:config pass_through);
+use YAML;
 use <%= $class %>;
 
-my $db = 'share/<%= $name %>.db';
-my $driver = 'SQLite';
-my $user = '';
-my $pass = '';
-my $host = '';
-my $port = 0;
-my $init = 0;
+my %config = (
+    database => {
+        driver => 'SQLite',
+        dbname => 'share/my_web_app_db.db',
+        dbuser => '',
+        dbpass => '',
+        dbhost => '',
+        dbport => 0,
+    },
+);
 
+my $config_file = 'config.yml';
+my $conf = YAML::LoadFile($config_file);
+
+@config{ keys %$conf } = values %$conf;
+
+my $init = 0;
 my $result = GetOptions(
-    'h|host=s' => \$host,
-    'p|port=i' => \$port,
-    'u|user=s' => \$user,
-    'p|pass=s' => \$pass,
-    'd|db=s' => \$db,
-    'm|driver=s' => \$driver,
     'init' => \$init,
 );
 
-my $dsn_head = "dbi:$driver:dbname=$db;";
-my $dsn_host = $host ? "host=$host;" : '';
-my $dsn_port = $port ? "port=$port;" : '';
+my $dsn_head = "dbi:$config{database}{driver}:dbname=$config{database}{dbname};";
+my $dsn_host = $config{database}{dbhost} ? "host=$config{database}{dbhost};" : '';
+my $dsn_port = $config{database}{dbport} ? "port=$config{database}{dbport};" : '';
 
 my $dsn = $dsn_head . $dsn_host . $dsn_port;
 
@@ -353,13 +357,13 @@ if ($@) {
 
     require <%= $class %>;
     <%= $class %>->import();
-    my $schema = <%= $class %>->connect($dsn, $user, $pass);
+    my $schema = <%= $class %>->connect($dsn, $config{database}{dbuser}, $config{database}{dbpass});
     $schema->deploy;
     my $admin = do 'share/fixtures/1/all_tables/users/1.fix';
     $schema->resultset('User')->create($admin);
 }
 else {
-    unshift @ARGV, ('--dsn', $dsn, '--username', $user, '--password', $pass);
+    unshift @ARGV, ('--dsn', $dsn, '--username', $config{database}{dbuser}, '--password', $config{database}{dbpass});
     (require DBIx::Class::Migration::Script)->run_with_options;
 }
 
@@ -3809,7 +3813,7 @@ Mojolicious::Command::generate::bootstrap_app - Generates a basic application wi
 
 =head1 VERSION
 
-Version 0.03
+Version 0.04
 
 =head1 SYNOPSIS
 
@@ -3825,6 +3829,8 @@ This will create the directory structure with a default YAML config and basic te
 
 To get database version and migration management you should install DBIx::Class::Migration.
 
+The default database is an SQLite database that gets installed into share/my_bootstrap_app.db. If you would like to change the database edit your config.yml accordingly.
+
 If installed you can use script/migration as a thin wrapper around dbic-migration setting lib and the correct database already.
 Running:
 
@@ -3832,7 +3838,8 @@ Running:
     script/migrate install
     script/migrate populate
 
-Will initialize the database according to the config.yml with the data from share/fixtures. So edit those to customize the default user.
+Prepare generates the SQL files needed, install actually creates the database schema and populate will populate the database with the data from share/fixtures. So edit those to customize the default user.
+
 If you do not have and do not want DBIx::Class::Migrate you can initialize the database with:
 
     script/migrate --init

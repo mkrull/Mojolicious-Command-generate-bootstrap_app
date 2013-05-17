@@ -16,7 +16,7 @@ name: Mojolicious-Command-generate-bootstrap_app
 provides:
   Mojolicious::Command::generate::bootstrap_app:
     file: lib/Mojolicious/Command/generate/bootstrap_app.pm
-    version: 0.03
+    version: 0.04
 requires:
   Crypt::Passwd::XS: 0
   DBIx::Class: 0
@@ -28,4 +28,4 @@ requires:
 resources:
   license: http://www.perlfoundation.org/artistic_license_2_0
   repository: https://github.com/mugenken/Mojolicious-Command-generate-bootstrap_app.git
-version: 0.03
+version: 0.04
