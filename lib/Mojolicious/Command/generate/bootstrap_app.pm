@@ -76,12 +76,14 @@ sub run {
     $self->render_to_rel_file('appclass', "$name/lib/$app", $class, $controller_namespace, $model_namespace, $model_name, random_string('s' x 64));
 
     # controllers
+    my $app_controller     = class_to_path $controller_namespace;
     my $example_controller = class_to_path "${controller_namespace}::Example";
     my $auth_controller    = class_to_path "${controller_namespace}::Auth";
     my $users_controller   = class_to_path "${controller_namespace}::Users";
-    $self->render_to_rel_file('example_controller', "$name/lib/$example_controller", "${controller_namespace}::Example");
-    $self->render_to_rel_file('auth_controller', "$name/lib/$auth_controller", "${controller_namespace}::Auth");
-    $self->render_to_rel_file('users_controller', "$name/lib/$users_controller", "${controller_namespace}::Users");
+    $self->render_to_rel_file('app_controller', "$name/lib/$app_controller", ${controller_namespace});
+    $self->render_to_rel_file('example_controller', "$name/lib/$example_controller", ${controller_namespace}, "Example");
+    $self->render_to_rel_file('auth_controller', "$name/lib/$auth_controller", ${controller_namespace}, "Auth");
+    $self->render_to_rel_file('users_controller', "$name/lib/$users_controller", ${controller_namespace}, "Users");
 
     # models
     my $schema = class_to_path $model_namespace;
@@ -413,10 +415,21 @@ $HASH1 = {
 
 %%= include 'elements/footer'
 
-@@ auth_controller
-% my $class = shift;
-package <%= $class %>;
+@@ app_controller
+% my $controller = shift;
+package <%= $controller %>;
 use Mojo::Base 'Mojolicious::Controller';
+
+# application wide controller code goes here
+
+1;
+
+
+@@ auth_controller
+% my $controller = shift;
+% my $class = shift;
+package <%= $controller . '::' . $class %>;
+use Mojo::Base '<%= $controller %>';
 use Crypt::Passwd::XS;
 
 sub login {
@@ -476,9 +489,10 @@ sub _authenticate_user {
 1;
 
 @@ example_controller
+% my $controller = shift;
 % my $class = shift;
-package <%= $class %>;
-use Mojo::Base 'Mojolicious::Controller';
+package <%= $controller . '::' . $class %>;
+use Mojo::Base '<%= $controller %>';
 
 # This action will render a template
 sub welcome {
@@ -490,10 +504,10 @@ sub welcome {
 1;
 
 @@ users_controller
+% my $controller = shift;
 % my $class = shift;
-package <%= $class %>;
-
-use Mojo::Base 'Mojolicious::Controller';
+package <%= $controller . '::' . $class %>;
+use Mojo::Base '<%= $controller %>';
 
 use Email::Valid;
 use Try::Tiny;
