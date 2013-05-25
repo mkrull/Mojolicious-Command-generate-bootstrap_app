@@ -92,8 +92,12 @@ sub run {
     # db_deploy_script
     $self->render_to_rel_file('migrate', "$name/script/migrate", $model_namespace, $model_name);
     $self->chmod_file("$name/script/migrate", 0744);
-    $self->render_to_rel_file('fixture', "$name/share/fixtures/1/all_tables/users/1.fix");
-    $self->render_to_rel_file('fixture_config', "$name/share/fixtures/1/conf/all_tables.json");
+
+    # fixtures
+    for my $mode (qw(production development testing)) {
+        $self->render_to_rel_file('fixture', "$name/db/$mode/fixtures/1/all_tables/users/1.fix");
+        $self->render_to_rel_file('fixture_config', "$name/db/$mode/fixtures/1/conf/all_tables.json");
+    };
 
     # tests
     $self->render_to_rel_file('test', "$name/t/basic.t", $class );
@@ -101,8 +105,8 @@ sub run {
     # config
     $self->render_to_rel_file('config', "$name/config.yml", $model_name);
 
-    # share (to play with DBIx::Class::Migration nicely
-    $self->create_rel_dir("$name/share");
+    # db (to play with DBIx::Class::Migration nicely
+    $self->create_rel_dir("$name/db");
 
     return 1;
 }
@@ -161,7 +165,7 @@ sub startup {
     my %config = (
         database => {
             driver => 'SQLite',
-            dbname => 'share/<%= $model_name %>.db',
+            dbname => 'db/<%= $model_name %>.db',
             dbuser => '',
             dbpass => '',
             dbhost => '',
@@ -184,15 +188,15 @@ sub startup {
     # set application config
     $self->config(\%config);
     # set sectret
-    $self->secret($self->config->{session_secret});
+    $self->secret($self->config->{$self->app->mode}->{session_secret});
     # set loglevel
-    $self->app->log->level($self->config->{loglevel});
+    $self->app->log->level($self->config->{$self->app->mode}->{loglevel});
 
     # Documentation browser under "/perldoc"
     $self->plugin('PODRenderer');
 
     # database connection prefork save with DBIx::Connector
-    my $connector = DBIx::Connector->new(build_dsn($self->config->{database}), $self->config->{database}->{dbuser}, $self->config->{database}->{dbpass});
+    my $connector = DBIx::Connector->new(build_dsn($self->config->{$self->app->mode}->{database}), $self->config->{$self->app->mode}->{database}->{dbuser}, $self->config->{$self->app->mode}->{database}->{dbpass});
     $self->helper(
         model => sub {
             my ($self, $resultset) = @_;
@@ -315,13 +319,35 @@ use YAML;
 use <%= $class %>;
 
 my %config = (
-    database => {
-        driver => 'SQLite',
-        dbname => 'share/my_web_app_db.db',
-        dbuser => '',
-        dbpass => '',
-        dbhost => '',
-        dbport => 0,
+    production => {
+        database => {
+            driver => 'SQLite',
+            dbname => 'db/<%= $name %>.db',
+            dbuser => '',
+            dbpass => '',
+            dbhost => '',
+            dbport => 0,
+        },
+    },
+    development => {
+        database => {
+            driver => 'SQLite',
+            dbname => 'db/<%= $name %>_dev.db',
+            dbuser => '',
+            dbpass => '',
+            dbhost => '',
+            dbport => 0,
+        },
+    },
+    testing => {
+        database => {
+            driver => 'SQLite',
+            dbname => 'db/<%= $name %>_test.db',
+            dbuser => '',
+            dbpass => '',
+            dbhost => '',
+            dbport => 0,
+        },
     },
 );
 
@@ -330,14 +356,17 @@ my $conf = YAML::LoadFile($config_file);
 
 @config{ keys %$conf } = values %$conf;
 
+my $mode = $ENV{MOJO_MODE} || 'development';
+die "No configuration found for run mode '$mode'" unless $config{$mode};
+
 my $init = 0;
 my $result = GetOptions(
     'init' => \$init,
 );
 
-my $dsn_head = "dbi:$config{database}{driver}:dbname=$config{database}{dbname};";
-my $dsn_host = $config{database}{dbhost} ? "host=$config{database}{dbhost};" : '';
-my $dsn_port = $config{database}{dbport} ? "port=$config{database}{dbport};" : '';
+my $dsn_head = "dbi:$config{$mode}{database}{driver}:dbname=$config{$mode}{database}{dbname};";
+my $dsn_host = $config{$mode}{database}{dbhost} ? "host=$config{$mode}{database}{dbhost};" : '';
+my $dsn_port = $config{$mode}{database}{dbport} ? "port=$config{$mode}{database}{dbport};" : '';
 
 my $dsn = $dsn_head . $dsn_host . $dsn_port;
 
@@ -357,13 +386,22 @@ if ($@ || $init) {
 
     require <%= $class %>;
     <%= $class %>->import();
-    my $schema = <%= $class %>->connect($dsn, $config{database}{dbuser}, $config{database}{dbpass});
+    my $schema = <%= $class %>->connect(
+        $dsn,
+        $config{$mode}{database}{dbuser},
+        $config{$mode}{database}{dbpass}
+    );
     $schema->deploy;
-    my $admin = do 'share/fixtures/1/all_tables/users/1.fix';
+    my $admin = do "db/$mode/fixtures/1/all_tables/users/1.fix";
     $schema->resultset('User')->create($admin);
 }
 else {
-    unshift @ARGV, ('--dsn', $dsn, '--username', $config{database}{dbuser}, '--password', $config{database}{dbpass});
+    unshift @ARGV, (
+        '--dsn', $dsn,
+        '--username', $config{$mode}{database}{dbuser},
+        '--password', $config{$mode}{database}{dbpass},
+        '--target_dir', "db/$mode"
+    );
     (require DBIx::Class::Migration::Script)->run_with_options;
 }
 
@@ -901,18 +939,41 @@ done_testing();
 
 @@ config
 % my $db_name = shift;
-database:
-  driver: "SQLite"
-  dbname: "share/<%= $db_name %>.db"
-  dbuser: ""
-  dbhost: ""
-  dbpass: ""
-  dbport: 0
+production:
+  database:
+    driver: "SQLite"
+    dbname: "db/<%= $db_name %>.db"
+    dbuser: ""
+    dbhost: ""
+    dbpass: ""
+    dbport: 0
 
-loglevel: "debug"
-hypnotoad:
-  listen:
-    - "http://*:8080"
+  loglevel: "info"
+  hypnotoad:
+    listen:
+      - "http://*:8080"
+
+development:
+  database:
+    driver: "SQLite"
+    dbname: "db/<%= $db_name %>_dev.db"
+    dbuser: ""
+    dbhost: ""
+    dbpass: ""
+    dbport: 0
+
+  loglevel: "debug"
+
+testing:
+  database:
+    driver: "SQLite"
+    dbname: "db/<%= $db_name %>_test.db"
+    dbuser: ""
+    dbhost: ""
+    dbpass: ""
+    dbport: 0
+
+  loglevel: "debug"
 
 @@ icons
 iVBORw0KGgoAAAANSUhEUgAAAdUAAACfCAQAAAAFBIvCAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFn
@@ -3829,7 +3890,7 @@ This will create the directory structure with a default YAML config and basic te
 
 To get database version and migration management you should install DBIx::Class::Migration.
 
-The default database is an SQLite database that gets installed into share/my_bootstrap_app.db. If you would like to change the database edit your config.yml accordingly.
+The default database is an SQLite database that gets installed into db/my_bootstrap_app.db. If you would like to change the database edit your config.yml accordingly.
 
 If installed you can use script/migration as a thin wrapper around dbic-migration setting lib and the correct database already.
 Running:
@@ -3838,7 +3899,7 @@ Running:
     script/migrate install
     script/migrate populate
 
-Prepare generates the SQL files needed, install actually creates the database schema and populate will populate the database with the data from share/fixtures. So edit those to customize the default user.
+Prepare generates the SQL files needed, install actually creates the database schema and populate will populate the database with the data from db/fixtures. So edit those to customize the default user.
 
 If you do not have and do not want DBIx::Class::Migrate you can initialize the database with:
 
