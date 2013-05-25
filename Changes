@@ -1,5 +1,9 @@
 Revision history for Mojolicious-Command-generate-dbic_auth_model
 
+0.05    2013-05-26
+        - Added application controller
+        - Improved documentation
+
 0.04    2013-05-17
         - Changed migration script to use config.yml
         - Fixed missing username and password when creating DBIx::Connector object

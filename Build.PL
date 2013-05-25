@@ -5,7 +5,7 @@ use Module::Build;
 
 my $builder = Module::Build->new(
     module_name         => 'Mojolicious::Command::generate::bootstrap_app',
-    license             => 'Artistic_2_0',
+    license             => 'artistic_2',
     dist_author         => q{Matthias Krull <m.krull@uninets.eu>},
     dist_abstract       => q{Generate a simple application with DBIx::Class authentication.},
     dist_version_from   => 'lib/Mojolicious/Command/generate/bootstrap_app.pm',
