@@ -4,7 +4,7 @@
       "Matthias Krull <m.krull@uninets.eu>"
    ],
    "dynamic_config" : 1,
-   "generated_by" : "Module::Build version 0.4003, CPAN::Meta::Converter version 2.120921",
+   "generated_by" : "Module::Build version 0.4005, CPAN::Meta::Converter version 2.130880",
    "license" : [
       "artistic_2"
    ],
@@ -39,17 +39,17 @@
    "provides" : {
       "Mojolicious::Command::generate::bootstrap_app" : {
          "file" : "lib/Mojolicious/Command/generate/bootstrap_app.pm",
-         "version" : "0.04"
+         "version" : "0.05"
       }
    },
    "release_status" : "stable",
    "resources" : {
       "license" : [
-         "http://www.perlfoundation.org/artistic_license_2_0"
+         "http://opensource.org/licenses/artistic-license-2.0.php"
       ],
       "repository" : {
          "url" : "https://github.com/mugenken/Mojolicious-Command-generate-bootstrap_app.git"
       }
    },
-   "version" : "0.04"
+   "version" : "0.05"
 }

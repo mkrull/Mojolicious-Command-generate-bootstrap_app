@@ -7,7 +7,7 @@ use Mojo::Util qw(class_to_path class_to_file);
 use String::Random qw(random_string);
 use MIME::Base64;
 
-our $VERSION = 0.04;
+our $VERSION = 0.05;
 
 has description => "Generate Mojolicious application directory structure including Twitter Bootstrap assets and DBIC authentication.\n";
 has usage       => "usage: $0 generate bootstrap_app [NAME]\n";
@@ -76,12 +76,14 @@ sub run {
     $self->render_to_rel_file('appclass', "$name/lib/$app", $class, $controller_namespace, $model_namespace, $model_name, random_string('s' x 64));
 
     # controllers
+    my $app_controller     = class_to_path $controller_namespace;
     my $example_controller = class_to_path "${controller_namespace}::Example";
     my $auth_controller    = class_to_path "${controller_namespace}::Auth";
     my $users_controller   = class_to_path "${controller_namespace}::Users";
-    $self->render_to_rel_file('example_controller', "$name/lib/$example_controller", "${controller_namespace}::Example");
-    $self->render_to_rel_file('auth_controller', "$name/lib/$auth_controller", "${controller_namespace}::Auth");
-    $self->render_to_rel_file('users_controller', "$name/lib/$users_controller", "${controller_namespace}::Users");
+    $self->render_to_rel_file('app_controller', "$name/lib/$app_controller", ${controller_namespace});
+    $self->render_to_rel_file('example_controller', "$name/lib/$example_controller", ${controller_namespace}, "Example");
+    $self->render_to_rel_file('auth_controller', "$name/lib/$auth_controller", ${controller_namespace}, "Auth");
+    $self->render_to_rel_file('users_controller', "$name/lib/$users_controller", ${controller_namespace}, "Users");
 
     # models
     my $schema = class_to_path $model_namespace;
@@ -451,10 +453,21 @@ $HASH1 = {
 
 %%= include 'elements/footer'
 
-@@ auth_controller
-% my $class = shift;
-package <%= $class %>;
+@@ app_controller
+% my $controller = shift;
+package <%= $controller %>;
 use Mojo::Base 'Mojolicious::Controller';
+
+# application wide controller code goes here
+
+1;
+
+
+@@ auth_controller
+% my $controller = shift;
+% my $class = shift;
+package <%= $controller . '::' . $class %>;
+use Mojo::Base '<%= $controller %>';
 use Crypt::Passwd::XS;
 
 sub login {
@@ -514,9 +527,10 @@ sub _authenticate_user {
 1;
 
 @@ example_controller
+% my $controller = shift;
 % my $class = shift;
-package <%= $class %>;
-use Mojo::Base 'Mojolicious::Controller';
+package <%= $controller . '::' . $class %>;
+use Mojo::Base '<%= $controller %>';
 
 # This action will render a template
 sub welcome {
@@ -528,10 +542,10 @@ sub welcome {
 1;
 
 @@ users_controller
+% my $controller = shift;
 % my $class = shift;
-package <%= $class %>;
-
-use Mojo::Base 'Mojolicious::Controller';
+package <%= $controller . '::' . $class %>;
+use Mojo::Base '<%= $controller %>';
 
 use Email::Valid;
 use Try::Tiny;
@@ -3874,7 +3888,7 @@ Mojolicious::Command::generate::bootstrap_app - Generates a basic application wi
 
 =head1 VERSION
 
-Version 0.04
+Version 0.05
 
 =head1 SYNOPSIS
 
@@ -3908,6 +3922,69 @@ If you do not have and do not want DBIx::Class::Migrate you can initialize the d
 Now run the test to check if everything went right.
 
     script/my_bootstrap_app test
+
+=head1 FILES
+
+The file structure generated is very similar to the non lite app with a few differences:
+
+    |-- config.yml                                     => your applications config file
+    |                                                     contains the database connection details and more
+    |-- lib
+    |   `-- My
+    |       `-- Bootstrap
+    |           |-- App
+    |           |   |-- Controller                     => authentication related controllers
+    |           |   |   |-- Auth.pm
+    |           |   |   |-- Example.pm
+    |           |   |   `-- Users.pm
+    |           |   |-- Controller.pm                  => the application controller
+    |           |   |                                     all controllers inherit from this
+    |           |   |                                     so application wide controller code goes here
+    |           |   |-- DB                             => the basic database
+    |           |   |   `-- Result                        including a User result class used for authentication
+    |           |   |       `-- User.pm
+    |           |   `-- DB.pm
+    |           `-- App.pm
+    |-- public
+    |   |-- bootstrap                                  => Twitter Bootstrap
+    |   |   |-- css
+    |   |   |   |-- bootstrap.min.css
+    |   |   |   `-- bootstrap-responsive.min.css
+    |   |   |-- img
+    |   |   |   |-- glyphicons-halflings.png
+    |   |   |   `-- glyphicons-halflings-white.png
+    |   |   `-- js
+    |   |       `-- bootstrap.min.js
+    |   |-- index.html
+    |   `-- style.css
+    |-- script
+    |   |-- migrate                                    => migration script using DBIx::Class::Migration
+    |   `-- my_bootstrap_app
+    |-- share                                          => fixtures for migrations and default admin user
+    |   `-- fixtures
+    |       `-- 1
+    |           |-- all_tables
+    |           |   `-- users
+    |           |       `-- 1.fix
+    |           `-- conf
+    |               `-- all_tables.json
+    |-- t
+    |   `-- basic.t
+    `-- templates                                      => templates to make use of the authentication
+        |-- auth
+        |   `-- login.html.ep
+        |-- elements                                   => configure key elements of the site seperatly from
+        |   |-- flash.html.ep                             the main layout
+        |   |-- footer.html.ep
+        |   `-- topnav.html.ep
+        |-- example
+        |   `-- welcome.html.ep
+        |-- layouts
+        |   `-- bootstrap.html.ep
+        `-- users
+            |-- add.html.ep
+            |-- edit.html.ep
+            `-- list.html.ep
 
 =head1 AUTHOR
 

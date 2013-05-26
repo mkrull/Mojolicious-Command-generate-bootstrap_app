@@ -7,7 +7,7 @@ build_requires:
 configure_requires:
   Module::Build: 0
 dynamic_config: 1
-generated_by: 'Module::Build version 0.4003, CPAN::Meta::Converter version 2.120921'
+generated_by: 'Module::Build version 0.4005, CPAN::Meta::Converter version 2.130880'
 license: artistic_2
 meta-spec:
   url: http://module-build.sourceforge.net/META-spec-v1.4.html
@@ -16,7 +16,7 @@ name: Mojolicious-Command-generate-bootstrap_app
 provides:
   Mojolicious::Command::generate::bootstrap_app:
     file: lib/Mojolicious/Command/generate/bootstrap_app.pm
-    version: 0.04
+    version: 0.05
 requires:
   Crypt::Passwd::XS: 0
   DBIx::Class: 0
@@ -26,6 +26,6 @@ requires:
   String::Random: 0
   YAML: 0
 resources:
-  license: http://www.perlfoundation.org/artistic_license_2_0
+  license: http://opensource.org/licenses/artistic-license-2.0.php
   repository: https://github.com/mugenken/Mojolicious-Command-generate-bootstrap_app.git
-version: 0.04
+version: 0.05

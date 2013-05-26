@@ -4,7 +4,7 @@ Mojolicious::Command::generate::bootstrap\_app - Generates a basic application w
 
 # VERSION
 
-Version 0.04
+Version 0.05
 
 # SYNOPSIS
 
@@ -38,6 +38,69 @@ If you do not have and do not want DBIx::Class::Migrate you can initialize the d
 Now run the test to check if everything went right.
 
     script/my_bootstrap_app test
+
+# FILES
+
+The file structure generated is very similar to the non lite app with a few differences:
+
+    |-- config.yml                                     => your applications config file
+    |                                                     contains the database connection details and more
+    |-- lib
+    |   `-- My
+    |       `-- Bootstrap
+    |           |-- App
+    |           |   |-- Controller                     => authentication related controllers
+    |           |   |   |-- Auth.pm
+    |           |   |   |-- Example.pm
+    |           |   |   `-- Users.pm
+    |           |   |-- Controller.pm                  => the application controller
+    |           |   |                                     all controllers inherit from this
+    |           |   |                                     so application wide controller code goes here
+    |           |   |-- DB                             => the basic database
+    |           |   |   `-- Result                        including a User result class used for authentication
+    |           |   |       `-- User.pm
+    |           |   `-- DB.pm
+    |           `-- App.pm
+    |-- public
+    |   |-- bootstrap                                  => Twitter Bootstrap
+    |   |   |-- css
+    |   |   |   |-- bootstrap.min.css
+    |   |   |   `-- bootstrap-responsive.min.css
+    |   |   |-- img
+    |   |   |   |-- glyphicons-halflings.png
+    |   |   |   `-- glyphicons-halflings-white.png
+    |   |   `-- js
+    |   |       `-- bootstrap.min.js
+    |   |-- index.html
+    |   `-- style.css
+    |-- script
+    |   |-- migrate                                    => migration script using DBIx::Class::Migration
+    |   `-- my_bootstrap_app
+    |-- share                                          => fixtures for migrations and default admin user
+    |   `-- fixtures
+    |       `-- 1
+    |           |-- all_tables
+    |           |   `-- users
+    |           |       `-- 1.fix
+    |           `-- conf
+    |               `-- all_tables.json
+    |-- t
+    |   `-- basic.t
+    `-- templates                                      => templates to make use of the authentication
+        |-- auth
+        |   `-- login.html.ep
+        |-- elements                                   => configure key elements of the site seperatly from
+        |   |-- flash.html.ep                             the main layout
+        |   |-- footer.html.ep
+        |   `-- topnav.html.ep
+        |-- example
+        |   `-- welcome.html.ep
+        |-- layouts
+        |   `-- bootstrap.html.ep
+        `-- users
+            |-- add.html.ep
+            |-- edit.html.ep
+            `-- list.html.ep
 
 # AUTHOR
 
