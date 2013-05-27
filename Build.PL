@@ -27,7 +27,7 @@ my $builder = Module::Build->new(
     },
     meta_merge => {
         resources => {
-            repository => 'https://github.com/mugenken/Mojolicious-Command-generate-bootstrap_app.git'
+            repository => 'https://github.com/mkrull/Mojolicious-Command-generate-bootstrap_app.git'
         }
     },
     add_to_cleanup     => [ 'Mojolicious-Command-generate-bootstrap_app-* Build _build MYMETA.*' ],

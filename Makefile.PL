@@ -2,20 +2,20 @@
 use ExtUtils::MakeMaker;
 WriteMakefile
 (
-  'PL_FILES' => {},
-  'INSTALLDIRS' => 'site',
   'NAME' => 'Mojolicious::Command::generate::bootstrap_app',
-  'EXE_FILES' => [],
   'VERSION_FROM' => 'lib/Mojolicious/Command/generate/bootstrap_app.pm',
   'PREREQ_PM' => {
-                   'YAML' => 0,
-                   'Email::Valid' => 0,
-                   'DBIx::Connector' => 0,
-                   'Mojolicious' => '4',
-                   'Test::More' => 0,
                    'Crypt::Passwd::XS' => 0,
+                   'DBIx::Class' => 0,
+                   'DBIx::Connector' => 0,
+                   'Email::Valid' => 0,
+                   'Mojolicious' => '4',
                    'String::Random' => 0,
-                   'DBIx::Class' => 0
-                 }
+                   'Test::More' => 0,
+                   'YAML' => 0
+                 },
+  'INSTALLDIRS' => 'site',
+  'EXE_FILES' => [],
+  'PL_FILES' => {}
 )
 ;

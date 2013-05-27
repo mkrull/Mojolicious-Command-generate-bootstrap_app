@@ -39,17 +39,17 @@
    "provides" : {
       "Mojolicious::Command::generate::bootstrap_app" : {
          "file" : "lib/Mojolicious/Command/generate/bootstrap_app.pm",
-         "version" : "0.05"
+         "version" : "0.06"
       }
    },
    "release_status" : "stable",
    "resources" : {
       "license" : [
-         "http://opensource.org/licenses/artistic-license-2.0.php"
+         "http://www.perlfoundation.org/artistic_license_2_0"
       ],
       "repository" : {
-         "url" : "https://github.com/mugenken/Mojolicious-Command-generate-bootstrap_app.git"
+         "url" : "https://github.com/mkrull/Mojolicious-Command-generate-bootstrap_app.git"
       }
    },
-   "version" : "0.05"
+   "version" : "0.06"
 }

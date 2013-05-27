@@ -7,7 +7,7 @@ use Mojo::Util qw(class_to_path class_to_file);
 use String::Random qw(random_string);
 use MIME::Base64;
 
-our $VERSION = 0.05;
+our $VERSION = 0.06;
 
 has description => "Generate Mojolicious application directory structure including Twitter Bootstrap assets and DBIC authentication.\n";
 has usage       => "usage: $0 generate bootstrap_app [NAME]\n";
@@ -5431,14 +5431,31 @@ The file structure generated is very similar to the non lite app with a few diff
     |-- script
     |   |-- migrate                                    => migration script using DBIx::Class::Migration
     |   `-- my_bootstrap_app
-    |-- share                                          => fixtures for migrations and default admin user
-    |   `-- fixtures
-    |       `-- 1
-    |           |-- all_tables
-    |           |   `-- users
-    |           |       `-- 1.fix
-    |           `-- conf
-    |               `-- all_tables.json
+    |-- share                                          => fixtures for the default admin user
+    |   |-- development                                   structure for three modes prepared
+    |   |   `-- fixtures                                  you can add as many as you need
+    |   |       `-- 1
+    |   |           |-- all_tables
+    |   |           |   `-- users
+    |   |           |       `-- 1.fix
+    |   |           `-- conf
+    |   |               `-- all_tables.json
+    |   |-- production
+    |   |   `-- fixtures
+    |   |       `-- 1
+    |   |           |-- all_tables
+    |   |           |   `-- users
+    |   |           |       `-- 1.fix
+    |   |           `-- conf
+    |   |               `-- all_tables.json
+    |   `-- testing
+    |       `-- fixtures
+    |           `-- 1
+    |               |-- all_tables
+    |               |   `-- users
+    |               |       `-- 1.fix
+    |               `-- conf
+    |                   `-- all_tables.json
     |-- t
     |   `-- basic.t
     `-- templates                                      => templates to make use of the authentication
@@ -5467,7 +5484,9 @@ Please report any bugs or feature requests to C<bug-mojolicious-command-generate
 the web interface at L<http://rt.cpan.org/NoAuth/ReportBug.html?Queue=Mojolicious-Command-generate-bootstrap_app>.  I will be notified, and then you'll
 automatically be notified of progress on your bug as I make changes.
 
+Alternatively file an issue at the github repo:
 
+L<https://github.com/mkrull/Mojolicious-Command-generate-bootstrap_app/issues>
 
 
 =head1 SUPPORT
@@ -5499,7 +5518,7 @@ L<http://search.cpan.org/dist/Mojolicious-Command-generate-bootstrap_app/>
 
 =item * Repository
 
-L<https://github.com/uninets/Mojolicious-Command-generate-bootstrap_app/>
+L<https://github.com/mkrull/Mojolicious-Command-generate-bootstrap_app/>
 
 =back
 

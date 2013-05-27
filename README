@@ -84,14 +84,31 @@ FILES
         |-- script
         |   |-- migrate                                    => migration script using DBIx::Class::Migration
         |   `-- my_bootstrap_app
-        |-- share                                          => fixtures for migrations and default admin user
-        |   `-- fixtures
-        |       `-- 1
-        |           |-- all_tables
-        |           |   `-- users
-        |           |       `-- 1.fix
-        |           `-- conf
-        |               `-- all_tables.json
+        |-- share                                          => fixtures for the default admin user
+        |   |-- development                                   structure for three modes prepared
+        |   |   `-- fixtures                                  you can add as many as you need
+        |   |       `-- 1
+        |   |           |-- all_tables
+        |   |           |   `-- users
+        |   |           |       `-- 1.fix
+        |   |           `-- conf
+        |   |               `-- all_tables.json
+        |   |-- production
+        |   |   `-- fixtures
+        |   |       `-- 1
+        |   |           |-- all_tables
+        |   |           |   `-- users
+        |   |           |       `-- 1.fix
+        |   |           `-- conf
+        |   |               `-- all_tables.json
+        |   `-- testing
+        |       `-- fixtures
+        |           `-- 1
+        |               |-- all_tables
+        |               |   `-- users
+        |               |       `-- 1.fix
+        |               `-- conf
+        |                   `-- all_tables.json
         |-- t
         |   `-- basic.t
         `-- templates                                      => templates to make use of the authentication
@@ -120,6 +137,11 @@ BUGS
     <http://rt.cpan.org/NoAuth/ReportBug.html?Queue=Mojolicious-Command-gene
     rate-bootstrap_app>. I will be notified, and then you'll automatically
     be notified of progress on your bug as I make changes.
+
+    Alternatively file an issue at the github repo:
+
+    <https://github.com/mkrull/Mojolicious-Command-generate-bootstrap_app/is
+    sues>
 
 SUPPORT
     You can find documentation for this module with the perldoc command.
@@ -150,8 +172,8 @@ SUPPORT
 
     *   Repository
 
-        <https://github.com/uninets/Mojolicious-Command-generate-bootstrap_a
-        pp/>
+        <https://github.com/mkrull/Mojolicious-Command-generate-bootstrap_ap
+        p/>
 
 LICENSE AND COPYRIGHT
   Bootstrap

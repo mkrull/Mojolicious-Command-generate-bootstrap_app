@@ -77,14 +77,31 @@ The file structure generated is very similar to the non lite app with a few diff
     |-- script
     |   |-- migrate                                    => migration script using DBIx::Class::Migration
     |   `-- my_bootstrap_app
-    |-- share                                          => fixtures for migrations and default admin user
-    |   `-- fixtures
-    |       `-- 1
-    |           |-- all_tables
-    |           |   `-- users
-    |           |       `-- 1.fix
-    |           `-- conf
-    |               `-- all_tables.json
+    |-- share                                          => fixtures for the default admin user
+    |   |-- development                                   structure for three modes prepared
+    |   |   `-- fixtures                                  you can add as many as you need
+    |   |       `-- 1
+    |   |           |-- all_tables
+    |   |           |   `-- users
+    |   |           |       `-- 1.fix
+    |   |           `-- conf
+    |   |               `-- all_tables.json
+    |   |-- production
+    |   |   `-- fixtures
+    |   |       `-- 1
+    |   |           |-- all_tables
+    |   |           |   `-- users
+    |   |           |       `-- 1.fix
+    |   |           `-- conf
+    |   |               `-- all_tables.json
+    |   `-- testing
+    |       `-- fixtures
+    |           `-- 1
+    |               |-- all_tables
+    |               |   `-- users
+    |               |       `-- 1.fix
+    |               `-- conf
+    |                   `-- all_tables.json
     |-- t
     |   `-- basic.t
     `-- templates                                      => templates to make use of the authentication
@@ -113,9 +130,9 @@ Please report any bugs or feature requests to `bug-mojolicious-command-generate-
 the web interface at [http://rt.cpan.org/NoAuth/ReportBug.html?Queue=Mojolicious-Command-generate-bootstrap\_app](http://rt.cpan.org/NoAuth/ReportBug.html?Queue=Mojolicious-Command-generate-bootstrap\_app).  I will be notified, and then you'll
 automatically be notified of progress on your bug as I make changes.
 
+Alternatively file an issue at the github repo:
 
-
-
+[https://github.com/mkrull/Mojolicious-Command-generate-bootstrap\_app/issues](https://github.com/mkrull/Mojolicious-Command-generate-bootstrap\_app/issues)
 
 
 
@@ -147,7 +164,7 @@ You can also look for information at:
 
 - Repository
 
-    [https://github.com/uninets/Mojolicious-Command-generate-bootstrap\_app/](https://github.com/uninets/Mojolicious-Command-generate-bootstrap\_app/)
+    [https://github.com/mkrull/Mojolicious-Command-generate-bootstrap\_app/](https://github.com/mkrull/Mojolicious-Command-generate-bootstrap\_app/)
 
 
 
