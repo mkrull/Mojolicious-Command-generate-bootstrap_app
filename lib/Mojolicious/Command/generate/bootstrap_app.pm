@@ -5358,7 +5358,7 @@ Mojolicious::Command::generate::bootstrap_app - Generates a basic application wi
 
 =head1 VERSION
 
-Version 0.05
+Version 0.06
 
 =head1 SYNOPSIS
 

@@ -4,7 +4,7 @@ Mojolicious::Command::generate::bootstrap\_app - Generates a basic application w
 
 # VERSION
 
-Version 0.05
+Version 0.06
 
 # SYNOPSIS
 
