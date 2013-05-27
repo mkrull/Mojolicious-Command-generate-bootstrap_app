@@ -742,7 +742,7 @@ sub _encrypt_password {
 
 @@ user_add_template
 %% layout 'bootstrap';
-%% title 'Edit User';
+%% title 'Add User';
 %%= include 'elements/topnav'
 %%= include 'elements/flash'
 
@@ -788,7 +788,7 @@ sub _encrypt_password {
 
 @@ user_edit_template
 %% layout 'bootstrap';
-%% title 'Add User';
+%% title 'Edit User';
 %%= include 'elements/topnav'
 %%= include 'elements/flash'
 %% my $user = stash 'user';
