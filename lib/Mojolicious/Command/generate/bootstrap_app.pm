@@ -98,8 +98,8 @@ sub run {
 
     # fixtures
     for my $mode (qw(production development testing)) {
-        $self->render_to_rel_file('fixture', "$name/db/$mode/fixtures/1/all_tables/users/1.fix");
-        $self->render_to_rel_file('fixture_config', "$name/db/$mode/fixtures/1/conf/all_tables.json");
+        $self->render_to_rel_file('fixture', "$name/share/$mode/fixtures/1/all_tables/users/1.fix");
+        $self->render_to_rel_file('fixture_config', "$name/share/$mode/fixtures/1/conf/all_tables.json");
     };
 
     # tests
@@ -168,7 +168,7 @@ sub startup {
     my %config = (
         database => {
             driver => 'SQLite',
-            dbname => 'db/<%= $model_name %>.db',
+            dbname => 'share/<%= $model_name %>.db',
             dbuser => '',
             dbpass => '',
             dbhost => '',
@@ -325,7 +325,7 @@ my %config = (
     production => {
         database => {
             driver => 'SQLite',
-            dbname => 'db/<%= $name %>.db',
+            dbname => 'share/<%= $name %>.db',
             dbuser => '',
             dbpass => '',
             dbhost => '',
@@ -335,7 +335,7 @@ my %config = (
     development => {
         database => {
             driver => 'SQLite',
-            dbname => 'db/<%= $name %>_dev.db',
+            dbname => 'share/<%= $name %>_dev.db',
             dbuser => '',
             dbpass => '',
             dbhost => '',
@@ -345,7 +345,7 @@ my %config = (
     testing => {
         database => {
             driver => 'SQLite',
-            dbname => 'db/<%= $name %>_test.db',
+            dbname => 'share/<%= $name %>_test.db',
             dbuser => '',
             dbpass => '',
             dbhost => '',
@@ -374,6 +374,7 @@ my $dsn_port = $config{$mode}{database}{dbport} ? "port=$config{$mode}{database}
 my $dsn = $dsn_head . $dsn_host . $dsn_port;
 
 $ENV{DBIC_MIGRATION_SCHEMA_CLASS} = '<%= $class %>';
+$ENV{DBIC_MIGRATION_TARGET_DIR}   = "share/$mode";
 
 eval {
     require DBIx::Class::Migration;
@@ -395,7 +396,7 @@ if ($@ || $init) {
         $config{$mode}{database}{dbpass}
     );
     $schema->deploy;
-    my $admin = do "db/$mode/fixtures/1/all_tables/users/1.fix";
+    my $admin = do "share/$mode/fixtures/1/all_tables/users/1.fix";
     $schema->resultset('User')->create($admin);
 }
 else {
@@ -403,7 +404,6 @@ else {
         '--dsn', $dsn,
         '--username', $config{$mode}{database}{dbuser},
         '--password', $config{$mode}{database}{dbpass},
-        '--target_dir', "db/$mode"
     );
     (require DBIx::Class::Migration::Script)->run_with_options;
 }
@@ -958,7 +958,7 @@ done_testing();
 production:
   database:
     driver: "SQLite"
-    dbname: "db/<%= $db_name %>.db"
+    dbname: "share/<%= $db_name %>.db"
     dbuser: ""
     dbhost: ""
     dbpass: ""
@@ -972,7 +972,7 @@ production:
 development:
   database:
     driver: "SQLite"
-    dbname: "db/<%= $db_name %>_dev.db"
+    dbname: "share/<%= $db_name %>_dev.db"
     dbuser: ""
     dbhost: ""
     dbpass: ""
@@ -983,7 +983,7 @@ development:
 testing:
   database:
     driver: "SQLite"
-    dbname: "db/<%= $db_name %>_test.db"
+    dbname: "share/<%= $db_name %>_test.db"
     dbuser: ""
     dbhost: ""
     dbpass: ""
@@ -5374,7 +5374,7 @@ This will create the directory structure with a default YAML config and basic te
 
 To get database version and migration management you should install DBIx::Class::Migration.
 
-The default database is an SQLite database that gets installed into db/my_bootstrap_app.db. If you would like to change the database edit your config.yml accordingly.
+The default database is an SQLite database that gets installed into share/my_bootstrap_app.db. If you would like to change the database edit your config.yml accordingly.
 
 If installed you can use script/migration as a thin wrapper around dbic-migration setting lib and the correct database already.
 Running:
@@ -5383,7 +5383,7 @@ Running:
     script/migrate install
     script/migrate populate
 
-Prepare generates the SQL files needed, install actually creates the database schema and populate will populate the database with the data from db/fixtures. So edit those to customize the default user.
+Prepare generates the SQL files needed, install actually creates the database schema and populate will populate the database with the data from share/fixtures. So edit those to customize the default user.
 
 If you do not have and do not want DBIx::Class::Migrate you can initialize the database with:
 
@@ -5424,7 +5424,8 @@ The file structure generated is very similar to the non lite app with a few diff
     |   |   |   |-- glyphicons-halflings.png
     |   |   |   `-- glyphicons-halflings-white.png
     |   |   `-- js
-    |   |       `-- bootstrap.min.js
+    |   |       |-- bootstrap.min.js
+    |   |       `-- jquery.min.js                      => jQuery to make modals, dropdowns, etc. work
     |   |-- index.html
     |   `-- style.css
     |-- script
