@@ -5372,7 +5372,7 @@ This will create the directory structure with a default YAML config and basic te
 
     cd my_bootstrap_app
 
-To get database version and migration management you should install DBIx::Class::Migration.
+To get database version and migration management you should install DBIx::Class::Migration (>= 0.038).
 
 The default database is an SQLite database that gets installed into share/my_bootstrap_app.db. If you would like to change the database edit your config.yml accordingly.
 
