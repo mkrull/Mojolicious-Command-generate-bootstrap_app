@@ -22,6 +22,14 @@ ok $bootstrap_app->usage, 'generator has a usage';
 ok $bootstrap_app->run('MyApp::Test'), 'generator runs';
 ok -d 'my_app_test', 'created application directory';
 ok -e 'my_app_test/script/migrate', 'created executable migration script';
+ok -f 'my_app_test/public/bootstrap-3.0.3/css/bootstrap.min.css', 'created Bootstrap css';
+ok -f 'my_app_test/public/bootstrap-3.0.3/css/bootstrap-theme.min.css', 'created Bootstrap theme css';
+ok -f 'my_app_test/public/bootstrap-3.0.3/js/bootstrap.min.js', 'created Bootstrap js';
+ok -f 'my_app_test/public/bootstrap-3.0.3/js/jquery-1.10.2.min.js', 'created jQuery';
+ok -f 'my_app_test/public/bootstrap-3.0.3/fonts/glyphicons-halflings-regular.eot', 'created Bootstrap eot glyphicons';
+ok -f 'my_app_test/public/bootstrap-3.0.3/fonts/glyphicons-halflings-regular.svg', 'created Bootstrap svg glyphicons';
+ok -f 'my_app_test/public/bootstrap-3.0.3/fonts/glyphicons-halflings-regular.ttf', 'created Bootstrap ttf glyphicons';
+ok -f 'my_app_test/public/bootstrap-3.0.3/fonts/glyphicons-halflings-regular.woff', 'created Bootstrap woff glyphicons';
 
 SKIP: {
     skip 'Set APP_TESTING to check if the generated app works.', 1 unless ( $ENV{APP_TESTING} );
@@ -29,7 +37,6 @@ SKIP: {
     system 'script/migrate --init';
     system 'script/my_app_test test 2>&1 > /dev/null'; # redirecting to NULL because test parser could get confused finding something that is TAP too
     ok $? << 8 == 0, 'application tests passed';
-
 }
 
 chdir $cwd;

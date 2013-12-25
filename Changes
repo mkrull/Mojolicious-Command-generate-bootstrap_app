@@ -1,5 +1,10 @@
 Revision history for Mojolicious-Command-generate-bootstrap_app
 
+0.07    2013-12-25
+        - Updated Bootstrap to 3.0.3
+        - Updated jQuery to 1.10.2
+        - Some Bugfixes
+
 0.06    2013-05-27
         - Added jQuery to make JavaScript parts of Twitter Bootstrap work
         - Improved migration management based on MOJO_MODE

@@ -1,14 +1,14 @@
 # NAME
 
-Mojolicious::Command::generate::bootstrap\_app - Generates a basic application with simple DBIC-based authentication featuring Twitter Bootstrap.
+Mojolicious::Command::generate::bootstrap\_app - Generates a basic application with simple DBIC-based authentication featuring Twitter Bootstrap 3.0.3 and jQuery 1.10.2.
 
 # VERSION
 
-Version 0.06
+Version 0.07
 
 # SYNOPSIS
 
-This command generate an application with a DBIx::Class model and a simple authentication controller.
+This command generates an application with a DBIx::Class model and simple authentication and users controllers.
 
 To generate an app run:
 
@@ -39,6 +39,8 @@ Now run the test to check if everything went right.
 
     script/my_bootstrap_app test
 
+The default login credentials are admin:password.
+
 # FILES
 
 The file structure generated is very similar to the non lite app with a few differences:
@@ -62,16 +64,18 @@ The file structure generated is very similar to the non lite app with a few diff
     |           |   `-- DB.pm
     |           `-- App.pm
     |-- public
-    |   |-- bootstrap                                  => Twitter Bootstrap
+    |   |-- bootstrap-3.0.3                            => Twitter Bootstrap
     |   |   |-- css
     |   |   |   |-- bootstrap.min.css
-    |   |   |   `-- bootstrap-responsive.min.css
-    |   |   |-- img
-    |   |   |   |-- glyphicons-halflings.png
-    |   |   |   `-- glyphicons-halflings-white.png
+    |   |   |   `-- bootstrap-theme.min.css
+    |   |   |-- fonts
+    |   |   |   |-- glyphicons-halflings-regular.eof
+    |   |   |   |-- glyphicons-halflings-regular.svg
+    |   |   |   |-- glyphicons-halflings-regular.ttf
+    |   |   |   `-- glyphicons-halflings-regular.woff
     |   |   `-- js
     |   |       |-- bootstrap.min.js
-    |   |       `-- jquery.min.js                      => jQuery to make modals, dropdowns, etc. work
+    |   |       `-- jquery-1.10.2.min.js               => jQuery to make modals, dropdowns, etc. work
     |   |-- index.html
     |   `-- style.css
     |-- script
