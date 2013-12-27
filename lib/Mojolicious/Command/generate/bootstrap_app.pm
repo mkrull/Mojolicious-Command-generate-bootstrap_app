@@ -192,8 +192,8 @@ sub startup {
 
     # set application config
     $self->config(\%config);
-    # set sectret
-    $self->secret($self->config->{$self->app->mode}->{session_secret});
+    # set secrets
+    $self->secrets([$self->config->{$self->app->mode}->{session_secret}]);
     # set loglevel
     $self->app->log->level($self->config->{$self->app->mode}->{loglevel});
 
@@ -611,10 +611,10 @@ sub delete {
 
     if ($user->id != $self->session->{user}->{id}){
         $user->delete;
-        $self->flash( class => 'alert alert-info', message => "$login deleted." );
+        $self->flash( class => 'alert alert-info', message => "Deleted $login." );
     }
     else {
-        $self->flash( class => 'alert alert-danger', message => "You can not delete $login." );
+        $self->flash( class => 'alert alert-danger', message => "You are not authorized to delete $login." );
     }
 
     $self->redirect_to('/users/list');
@@ -629,7 +629,7 @@ sub edit {
             $self->render( user => $user );
         }
         else {
-            $self->flash( class => 'alert alert-danger', message => 'Not authorized.' );
+            $self->flash( class => 'alert alert-danger', message => "You are not authorized to edit $login." );
             $self->redirect_to($self->req->headers->referrer);
         }
     }
