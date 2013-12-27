@@ -1,2 +1,4 @@
 *.swp
 .DS_Store
+/.build
+/Mojolicious-Command-generate-bootstrap_app-*

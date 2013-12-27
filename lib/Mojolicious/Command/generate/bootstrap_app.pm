@@ -7726,8 +7726,6 @@ dzppbnNldCAwIDFweCAzcHggcmdiYSgwLDAsMCwwLjA1KSwwIDFweCAwIHJnYmEoMjU1LDI1NSwy
 NTUsMC4xKTtib3gtc2hhZG93Omluc2V0IDAgMXB4IDNweCByZ2JhKDAsMCwwLDAuMDUpLDAgMXB4
 IDAgcmdiYSgyNTUsMjU1LDI1NSwwLjEpfQ==
 
-__END__
-
 =head1 NAME
 
 Mojolicious::Command::generate::bootstrap_app - Generates a basic application with simple DBIC-based authentication featuring Twitter Bootstrap 3.0.3 and jQuery 1.10.2.

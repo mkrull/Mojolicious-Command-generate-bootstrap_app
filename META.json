@@ -1,10 +1,10 @@
 {
-   "abstract" : "Generate a simple application with DBIx::Class authentication and Twitter Bootstrap CSS.",
+   "abstract" : "Generates a basic application with simple DBIC-based authentication featuring Twitter Bootstrap 3.0.3 and jQuery 1.10.2.",
    "author" : [
-      "Matthias Krull <m.krull@uninets.eu>"
+      "Matthias Krull, C<< <m.krull at uninets.eu> >>"
    ],
-   "dynamic_config" : 1,
-   "generated_by" : "Module::Build version 0.4203",
+   "dynamic_config" : 0,
+   "generated_by" : "Dist::Milla version v1.0.4, Dist::Zilla version 5.006, CPAN::Meta::Converter version 2.133380",
    "license" : [
       "artistic_2"
    ],
@@ -13,6 +13,16 @@
       "version" : "2"
    },
    "name" : "Mojolicious-Command-generate-bootstrap_app",
+   "no_index" : {
+      "directory" : [
+         "t",
+         "xt",
+         "inc",
+         "share",
+         "eg",
+         "examples"
+      ]
+   },
    "prereqs" : {
       "build" : {
          "requires" : {
@@ -21,7 +31,12 @@
       },
       "configure" : {
          "requires" : {
-            "Module::Build" : "0"
+            "Module::Build::Tiny" : "0.030"
+         }
+      },
+      "develop" : {
+         "requires" : {
+            "Test::Pod" : "1.41"
          }
       },
       "runtime" : {
@@ -36,20 +51,21 @@
          }
       }
    },
-   "provides" : {
-      "Mojolicious::Command::generate::bootstrap_app" : {
-         "file" : "lib/Mojolicious/Command/generate/bootstrap_app.pm",
-         "version" : "0.07"
-      }
-   },
    "release_status" : "stable",
    "resources" : {
-      "license" : [
-         "http://www.perlfoundation.org/artistic_license_2_0"
-      ],
+      "bugtracker" : {
+         "web" : "https://github.com/uninets/Mojolicious-Command-generate-bootstrap_app/issues"
+      },
+      "homepage" : "https://github.com/uninets/Mojolicious-Command-generate-bootstrap_app",
       "repository" : {
-         "url" : "https://github.com/mkrull/Mojolicious-Command-generate-bootstrap_app.git"
+         "type" : "git",
+         "url" : "https://github.com/uninets/Mojolicious-Command-generate-bootstrap_app.git",
+         "web" : "https://github.com/uninets/Mojolicious-Command-generate-bootstrap_app"
       }
    },
-   "version" : "0.07"
+   "version" : "0.07",
+   "x_contributors" : [
+      "Matthias Krull <mkrull@uninets.eu>"
+   ]
 }
+
