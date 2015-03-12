@@ -4,6 +4,7 @@ use strict;
 use warnings;
 use Mojo::Base 'Mojolicious::Command';
 use Mojo::Util qw(class_to_path class_to_file);
+use Mojo::Loader qw(data_section);
 use String::Random qw(random_string);
 use MIME::Base64;
 
@@ -16,7 +17,7 @@ sub render_base64_data {
     my ($self, $name) = (shift, shift);
     decode_base64(
         Mojo::Template->new->name("template $name from DATA section")
-            ->render(Mojo::Loader->new->data(ref $self, $name), @_)
+            ->render(data_section(ref $self, $name), @_)
     );
 }
 

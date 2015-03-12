@@ -2,7 +2,7 @@ requires 'Crypt::Passwd::XS';
 requires 'DBIx::Class';
 requires 'DBIx::Connector';
 requires 'Email::Valid';
-requires 'Mojolicious', '4';
+requires 'Mojolicious', '6';
 requires 'String::Random';
 requires 'YAML';
 
